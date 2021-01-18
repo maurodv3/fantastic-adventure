@@ -17,11 +17,11 @@ jobs:
       # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
-          command: mvn -B -DskipTests -Dskip.yarn clean package
+          command: mvn -B -DskipTests -Dskip.yarn -Dmaven.antrun.skip=true clean package
       # Then run your tests!
       - run:
           name: Test
-          command: mvn -Dskip.yarn test
+          command: mvn -Dskip.yarn -Dmaven.antrun.skip=true test
 
 workflows:
   # Below is the definition of your workflow.

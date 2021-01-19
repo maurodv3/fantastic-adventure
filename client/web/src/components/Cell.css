@@ -1,6 +1,40 @@
-.Cell {
-    width: 30px;
-    height: 30px;
-    background-color: darkgray;
-    border: 2px black solid;
+.cell {
+    font-weight: bolder;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    background-color: #a9a9a9;
+    border: black solid 1px;
+    border-radius: 2px;
+    margin: 3px;
+    text-align: center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.cell-blank {
+    background-color: whitesmoke;
+}
+
+.cell-1 {
+    color: #0cb5e2;
+}
+
+.cell-2 {
+    color: #80cd09;
+}
+
+.cell-3 {
+    color: #cd5c5c;
+}
+
+.cell-4 {
+    color: #0d0db3;
+}
+
+.cell-5 .cell-6 .cell-7 .cell-8 {
+    color: #ff0000;
+}
+
+.cell-mine {
+    background-color: #9f4f4f;
 }

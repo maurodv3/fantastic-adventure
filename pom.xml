@@ -85,6 +85,9 @@
 						</goals>
 						<configuration>
 							<arguments>build</arguments>
+							<environmentVariables>
+								<REACT_APP_API_URL>${REACT_APP_API_URL}</REACT_APP_API_URL>
+							</environmentVariables>
 						</configuration>
 					</execution>
 				</executions>

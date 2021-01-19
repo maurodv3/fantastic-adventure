@@ -15,7 +15,7 @@ public class MinesweeperService {
 
     public Mono<MinesweeperBoard> startNewGame(Integer height, Integer width, Integer mines) {
         return repository.save(
-                MinesweeperBoard.create(height, width, Mine.generateMines(mines, width, height))
+                MinesweeperBoard.create(height, width, Mine.generateMines(mines, height, width))
         );
     }
 

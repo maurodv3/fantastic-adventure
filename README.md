@@ -10,6 +10,5 @@ A classic Minesweeper game.
 * Persistence
 * Time tracking
 * Ability to start a new game and preserve/resume the old ones
-* Ability to select the game parameters: number of rows, columns, and mines
 * Ability to support multiple users/accounts
 

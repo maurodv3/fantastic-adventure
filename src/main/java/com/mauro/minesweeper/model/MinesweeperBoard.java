@@ -46,6 +46,9 @@ public class MinesweeperBoard {
     public static MinesweeperBoard create(int height, int width, Set<Mine> mines) {
         MinesweeperBoard newBoard = new MinesweeperBoard(height, width, mines);
         newBoard.initialize();
+        System.out.println("DEBUG INFO: ");
+        newBoard._print(newBoard.board);
+        System.out.println("---");
         return newBoard;
     }
 
@@ -70,8 +73,8 @@ public class MinesweeperBoard {
         // Mine is clicked -> game lost
         if (board[x][y] == MINE) {
             completed = true;
-            visibleCells[x][y] = -1;
-            visibleCount++;
+            //Reveal board
+            visibleCells = board;
             return this;
         }
         // Zero(0) is clicked expand visible area recursively

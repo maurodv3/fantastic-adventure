@@ -6,18 +6,26 @@ interface BoardProps {
     height: number,
     width: number,
     visibleCells: number[][],
-    onClick: (x: number, y: number) => void
+    markers: number[][],
+    onClick: (x: number, y: number) => void,
+    onRightClick: (x: number, y: number, marking: number) => void
 }
 
 function Board(props: BoardProps) {
 
-    const { height, width, visibleCells } = props;
+    const { height, width, visibleCells, markers } = props;
 
     function buildLine(line: number, width: number) {
         let cells = [];
         for (let i = 0; i < width; i++) {
             const key = `${line}-${i}`;
-            cells.push(<Cell key={key} value={visibleCells[line][i]} onClick={() => props.onClick(line, i)} />);
+            cells.push(
+                <Cell key={key}
+                      value={visibleCells[line][i]}
+                      marking={markers[line][i]}
+                      onClick={() => props.onClick(line, i)}
+                      onRightClick={(mark: number) => props.onRightClick(line, i, mark)}
+                />);
         }
         return cells;
     }

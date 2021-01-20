@@ -9,6 +9,11 @@
     margin: 3px;
     text-align: center;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: #c9c9fc;
 }
 
 .cell-blank {
@@ -37,4 +42,13 @@
 
 .cell-mine {
     background-color: #9f4f4f;
+}
+
+.cell-question-mark {
+    color: #80cd09;
+    background-color: #d9f5ae;
+}
+
+.cell-flag-mark {
+    background-color: #e79898;
 }

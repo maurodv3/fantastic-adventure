@@ -12,8 +12,11 @@ import java.util.Set;
 @Schema(description = "Minesweeper game representation, board specifications and current status of the game.")
 public class MinesweeperBoard {
 
+    private static final int EMPTY = 0;
     private static final int MINE = -1;
     private static final int UNKNOWN = -2;
+    private static final int FLAG = -3;
+    private static final int QUESTION_MARK = -4;
 
     @Schema(description = "Game Unique Identifier.")
     private String id;
@@ -28,6 +31,7 @@ public class MinesweeperBoard {
 
     private int[][] board;
     private int[][] visibleCells;
+    private int[][] markers;
     private int visibleCount;
 
     private MinesweeperBoard(int height, int width, Set<Mine> mines) {
@@ -46,9 +50,9 @@ public class MinesweeperBoard {
     public static MinesweeperBoard create(int height, int width, Set<Mine> mines) {
         MinesweeperBoard newBoard = new MinesweeperBoard(height, width, mines);
         newBoard.initialize();
-        System.out.println("DEBUG INFO: ");
-        newBoard._print(newBoard.board);
-        System.out.println("---");
+//        System.out.println("DEBUG INFO: ");
+//        newBoard._print(newBoard.board);
+//        System.out.println("---");
         return newBoard;
     }
 
@@ -66,7 +70,14 @@ public class MinesweeperBoard {
         if (x < 0 || x > width || y < 0 || y > height) {
             return this;
         }
-        // Already visible ignore action.
+        // Handle user markings.
+        if (handleMarkings(action)) {
+            return this;
+        }
+        if (markers[x][y] != EMPTY) {
+            return this;
+        }
+        // Already visible or marked cells then ignore actions.
         if (visibleCells[x][y] != UNKNOWN) {
             return this;
         }
@@ -75,6 +86,8 @@ public class MinesweeperBoard {
             completed = true;
             //Reveal board
             visibleCells = board;
+            //Clear markings
+            markers = new int[height][width];
             return this;
         }
         // Zero(0) is clicked expand visible area recursively
@@ -98,6 +111,26 @@ public class MinesweeperBoard {
         return this;
     }
 
+    private boolean handleMarkings(ClickAction action) {
+        int x = action.getxPosition();
+        int y = action.getyPosition();
+        if (action.getClearMarkings() != null && action.getClearMarkings()) {
+            markers[x][y] = EMPTY;
+            return true;
+        }
+        //Flagged cell.
+        if (action.getFlag() != null && action.getFlag()) {
+            markers[x][y] = FLAG;
+            return true;
+        }
+        //Question cell.
+        if (action.getQuestionMark() != null && action.getQuestionMark()) {
+            markers[x][y] = QUESTION_MARK;
+            return true;
+        }
+        return false;
+    }
+
     @Schema(description = "Game is already won.")
     public boolean isWinner() {
         return ((height * width) - mines.size()) - visibleCount == 0;
@@ -113,6 +146,7 @@ public class MinesweeperBoard {
 
         completed = false;
         board = new int[height][width];
+        markers = new int[height][width];
         visibleCells = new int[height][width];
         //Set visible board to UNKNOWN.
         for (int[] row : visibleCells) {
@@ -194,7 +228,16 @@ public class MinesweeperBoard {
 
     @Schema(description = "Visible user status of the board.")
     public int[][] getVisibleCells() {
-        return Arrays.stream(visibleCells)
+        return copy(visibleCells);
+    }
+
+    @Schema(description = "Markings user map overlay of the board.")
+    public int[][] getMarkers() {
+        return copy(markers);
+    }
+
+    private int[][] copy(int[][] matrix) {
+        return Arrays.stream(matrix)
                 .map(int[]::clone)
                 .toArray(int[][]::new);
     }

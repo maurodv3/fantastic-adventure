@@ -61,4 +61,38 @@ public class MinesweeperBoardTest {
                 .click(new ClickAction(100, 100));
     }
 
+    @Test
+    @DisplayName("Clicking a flag marking is safe and won't make the game lost until marking is removed.")
+    public void testGameFlagMarking() {
+        var board = MinesweeperBoard.create(9, 9, TEST_MINES);
+        var click1 = new ClickAction(0,0);
+        click1.setFlag(true);
+        board.click(click1); // Mark with flag.
+        board.click(new ClickAction(0, 0)); // Click on flag.
+        Assertions.assertFalse(board.isCompleted()); // Click is safe -> game is not finished.
+        var click2 = new ClickAction(0,0);
+        click2.setClearMarkings(true);
+        board.click(click2); // Remove flag -> Mark is cleared no longer safe to click.
+        board.click(new ClickAction(0, 0));
+        Assertions.assertTrue(board.isCompleted());
+        Assertions.assertFalse(board.isWinner());
+    }
+
+    @Test
+    @DisplayName("Clicking a question marking is safe and won't make the game lost until marking is removed.")
+    public void testGameQuestionMarking() {
+        var board = MinesweeperBoard.create(9, 9, TEST_MINES);
+        var click1 = new ClickAction(0,0);
+        click1.setQuestionMark(true);
+        board.click(click1); // Mark with flag.
+        board.click(new ClickAction(0, 0)); // Click on question mark.
+        Assertions.assertFalse(board.isCompleted()); // Click is safe -> game is not finished.
+        var click2 = new ClickAction(0,0);
+        click2.setClearMarkings(true);
+        board.click(click2); // Remove question mark -> Mark is cleared no longer safe to click.
+        board.click(new ClickAction(0, 0));
+        Assertions.assertTrue(board.isCompleted());
+        Assertions.assertFalse(board.isWinner());
+    }
+
 }

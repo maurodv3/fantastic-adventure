@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Board from "./Board";
 import './Game.css';
@@ -11,6 +11,7 @@ function Game() {
     const [gameID, setGameID] = useState(null);
     const [started, setStarted] = useState(false);
     const [visible, setVisible] = useState<number[][]>([]) ;
+    const [markers, setMarkers] = useState<number[][]>([]) ;
     const [finished, setFinished] = useState(false);
     const [won, setWon] = useState(false);
 
@@ -28,6 +29,7 @@ function Game() {
             console.log(body);
             setGameID(body.id);
             setVisible(body.visibleCells);
+            setMarkers(body.markers);
             setStarted(!body.completed);
             setFinished(body.completed);
             setWon(body.winner);
@@ -52,6 +54,38 @@ function Game() {
         .then(body => {
             console.log(body);
             setVisible(body.visibleCells);
+            setMarkers(body.markers);
+            setFinished(body.completed);
+            setWon(body.winner);
+        }).catch(console.error);
+    }
+
+    const onRightClick = (x: number, y: number, marking: number) => {
+
+        console.log("Right!");
+
+        const body = JSON.stringify({
+            xPosition: x,
+            yPosition: y,
+            flag: marking === -3,
+            questionMark: marking === -4,
+            clearMarkings: marking === 0
+        });
+
+        console.log(body);
+
+        fetch( `${process.env.REACT_APP_API_URL}/game/${gameID}/click`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: body
+        })
+        .then(response => response.json())
+        .then(body => {
+            console.log(body);
+            setVisible(body.visibleCells);
+            setMarkers(body.markers);
             setFinished(body.completed);
             setWon(body.winner);
         }).catch(console.error);
@@ -68,6 +102,7 @@ function Game() {
     const reset = () => {
         setStarted(false);
         setVisible([]);
+        setMarkers([]);
         setFinished(false);
         setWon(false);
     }
@@ -76,7 +111,7 @@ function Game() {
       <div className="game">
           <Header/>
           {started ? (
-              <Board height={height} width={width} visibleCells={visible} onClick={onClick}/>
+              <Board height={height} width={width} visibleCells={visible} markers={markers} onClick={onClick} onRightClick={onRightClick}/>
           ) : (
               <div className="start">
                   <button className="button" onClick={startGame}>Start new game!</button>

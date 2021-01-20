@@ -13,7 +13,11 @@ public class ClickAction {
     @Schema(description = "Cell Y position to click on.")
     private Integer yPosition;
     @Schema(description = "Cell is marked with a flag.")
-    private Boolean isFlag;
+    private Boolean flag;
+    @Schema(description = "Cell is marked with a question mark.")
+    private Boolean questionMark;
+    @Schema(description = "Remove cell markings.")
+    private Boolean clearMarkings;
 
     public ClickAction() {
     }
@@ -39,12 +43,27 @@ public class ClickAction {
         this.yPosition = yPosition;
     }
 
-    public Boolean isFlag() {
-        return isFlag;
+    public Boolean getFlag() {
+        return flag;
     }
 
     public void setFlag(Boolean flag) {
-        isFlag = flag;
+        this.flag = flag;
     }
 
+    public Boolean getQuestionMark() {
+        return questionMark;
+    }
+
+    public void setQuestionMark(Boolean questionMark) {
+        this.questionMark = questionMark;
+    }
+
+    public Boolean getClearMarkings() {
+        return clearMarkings;
+    }
+
+    public void setClearMarkings(Boolean clearMarkings) {
+        this.clearMarkings = clearMarkings;
+    }
 }

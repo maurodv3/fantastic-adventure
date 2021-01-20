@@ -226,12 +226,22 @@ public class MinesweeperBoard {
         return isWinner() || completed;
     }
 
-    @Schema(description = "Visible user status of the board.")
+    @Schema(description =
+            "Visible user status of the board. <br/>" +
+            "This matrix consists in codified cells of the game where: <br/>" +
+            "- Unknown value => -2 <br/>" +
+            "- Mine => -1 <br/>" +
+            "- Positive number => Number of mines around the cell.")
     public int[][] getVisibleCells() {
         return copy(visibleCells);
     }
 
-    @Schema(description = "Markings user map overlay of the board.")
+    @Schema(description =
+            "Markings user map overlay of the board. <br/>" +
+            "This matrix consists in codified cell of markings made by the user where: <br/>" +
+            "- No marking => 0 <br/>" +
+            "- Flagged cell => -3 <br/>" +
+            "- Question cell => -4 <br/>")
     public int[][] getMarkers() {
         return copy(markers);
     }

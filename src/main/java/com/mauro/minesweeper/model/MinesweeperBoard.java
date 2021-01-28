@@ -1,6 +1,8 @@
 package com.mauro.minesweeper.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -9,6 +11,7 @@ import java.util.Set;
  * Minesweeper game encapsulating class, holds the current status of the game visible and the internal game
  * representation along with the board specifications.
  */
+@Document
 @Schema(description = "Minesweeper game representation, board specifications and current status of the game.")
 public class MinesweeperBoard {
 
@@ -18,6 +21,7 @@ public class MinesweeperBoard {
     private static final int FLAG = -3;
     private static final int QUESTION_MARK = -4;
 
+    @Id
     @Schema(description = "Game Unique Identifier.")
     private String id;
     @Schema(description = "Game height size.")
